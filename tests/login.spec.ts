@@ -12,7 +12,14 @@ test('Login to website', async ({ page }: { page: any }) => {
   // Click the login button
   await page.click('#login-button');
 
-  // Pause here to inspect the post-login state (remove for CI runs)
+  // Add first item to cart
+  const firstItem = page.locator('.inventory_list .inventory_item').first();
+  await firstItem.locator('button').click();
+
+  // Verify cart shows 1 item
+  await expect(page.locator('.shopping_cart_badge')).toHaveText('1');
+
+  // Pause here to inspect the cart (remove for CI runs)
   await page.pause();
 
   // Verify that the user is logged in by checking for a specific element on the homepage
